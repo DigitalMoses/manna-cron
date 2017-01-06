@@ -1,0 +1,25 @@
+{
+  "name": "test",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "*",
+    "jquery-ui": "*",
+    "datatables.net": "*",
+    "datatables.net-dt": "*",
+    "angular": "*",
+    "angular-animate": "*",
+    "angular-touch": "*",
+    "bootstrap": "*",
+    "angular-bootstrap": "*"
+  }
+}

@@ -1,0 +1,29 @@
+.glyphicon {
+    padding-right: 15px;
+}
+
+.login-panel {
+    margin: 50px auto;
+    width: 230px;
+}
+
+.navbar-brand img {
+    margin-top: -16px;
+}
+/*
+@media only screen and (max-width: 1200px) {
+    textarea { min-height: 400px; }
+}
+
+@media only screen and (max-width: 992px) {
+    textarea { min-height: 200px; }
+}
+
+@media only screen and (max-width: 768px) {
+    textarea { min-height: 200px; }
+}
+
+@media only screen and (max-width: 480px) {
+    textarea { min-height: 100px; }
+}
+*/

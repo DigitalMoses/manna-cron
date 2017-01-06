@@ -1,0 +1,204 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "78b923926a2e44dbd797a11e4b5ed3de",
+    "content-hash": "30ef1df3c0f819d0455f847d48fb886c",
+    "packages": [
+        {
+            "name": "facebook/graph-sdk",
+            "version": "5.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/php-graph-sdk.git",
+                "reference": "3e0f78787556375bb6ed52beaabfedbc16b5a4e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/3e0f78787556375bb6ed52beaabfedbc16b5a4e8",
+                "reference": "3e0f78787556375bb6ed52beaabfedbc16b5a4e8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4|^7.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "~5.0",
+                "mockery/mockery": "~0.8",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
+                "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Facebook\\": "src/Facebook/"
+                },
+                "files": [
+                    "src/Facebook/polyfills.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Facebook Platform"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/php-graph-sdk/contributors"
+                }
+            ],
+            "description": "Facebook SDK for PHP",
+            "homepage": "https://github.com/facebook/php-graph-sdk",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "time": "2016-12-30 17:54:16"
+        },
+        {
+            "name": "facebook/php-ads-sdk",
+            "version": "2.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/facebook-php-ads-sdk.git",
+                "reference": "ad5da8006abc9c3498b60b059b4e11285ca5eff1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/facebook-php-ads-sdk/zipball/ad5da8006abc9c3498b60b059b4e11285ca5eff1",
+                "reference": "ad5da8006abc9c3498b60b059b4e11285ca5eff1",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6",
+                "symfony/finder": "~2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FacebookAds\\": "src/FacebookAds/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Facebook Platform"
+            ],
+            "description": "PHP SDK for Facebook ads",
+            "homepage": "https://developers.facebook.com/",
+            "keywords": [
+                "ads",
+                "facebook",
+                "sdk"
+            ],
+            "time": "2016-10-06 03:47:41"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2015-05-01 07:00:55"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "mikey179/vfsStream",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mikey179/vfsStream.git",
+                "reference": "fc0fe8f4d0b527254a2dc45f0c265567c881d07e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/fc0fe8f4d0b527254a2dc45f0c265567c881d07e",
+                "reference": "fc0fe8f4d0b527254a2dc45f0c265567c881d07e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "org\\bovigo\\vfs": "src/main/php"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "homepage": "http://vfs.bovigo.org/",
+            "time": "2012-08-25 12:49:29"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.2.4"
+    },
+    "platform-dev": []
+}
