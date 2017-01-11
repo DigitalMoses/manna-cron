@@ -5,68 +5,71 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Ads extends CI_Model {
 
     public function clear() {
-        $this->db->query("DELETE FROM `actions`");
-        $this->db->query("ALTER TABLE `actions` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM actions");
+        $this->db->query("ALTER TABLE actions AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `action_values`");
-        $this->db->query("ALTER TABLE `action_values` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM action_values");
+        $this->db->query("ALTER TABLE action_values AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `cost_per_action_type`");
-        $this->db->query("ALTER TABLE `cost_per_action_type` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM cost_per_action_type");
+        $this->db->query("ALTER TABLE cost_per_action_type AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `cost_per_unique_action_type`");
-        $this->db->query("ALTER TABLE `cost_per_unique_action_type` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM cost_per_unique_action_type");
+        $this->db->query("ALTER TABLE cost_per_unique_action_type AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `unique_actions`");
-        $this->db->query("ALTER TABLE `unique_actions` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM unique_actions");
+        $this->db->query("ALTER TABLE unique_actions AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `website_ctr`");
-        $this->db->query("ALTER TABLE `website_ctr` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM website_ctr");
+        $this->db->query("ALTER TABLE website_ctr AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `ad_details`");
-        $this->db->query("ALTER TABLE `ad_details` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM ad_details");
+        $this->db->query("ALTER TABLE ad_details AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `ad_and_insights_date`");
-        $this->db->query("ALTER TABLE `ad_and_insights_date` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM ad_and_insights_date");
+        $this->db->query("ALTER TABLE ad_and_insights_date AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `ad`");
-        $this->db->query("ALTER TABLE `ad` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM ad");
+        $this->db->query("ALTER TABLE ad AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `insights_date`");
-        $this->db->query("ALTER TABLE `insights_date` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM insights_date");
+        $this->db->query("ALTER TABLE insights_date AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `ad_image_creatives`");
-        $this->db->query("ALTER TABLE `ad_image_creatives` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM ad_image_creatives");
+        $this->db->query("ALTER TABLE ad_image_creatives AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `ad_image`");
-        $this->db->query("ALTER TABLE `ad_image` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM ad_image");
+        $this->db->query("ALTER TABLE ad_image AUTO_INCREMENT = 1");
 
-        $this->db->query("DELETE FROM `ad_account`");
-        $this->db->query("ALTER TABLE `ad_account` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM ad_account");
+        $this->db->query("ALTER TABLE ad_account AUTO_INCREMENT = 1");
     }
 
     public function disable_ad_account($ad_account_id) {
-        $this->db->query("UPDATE `work_ad_accounts` SET `enabled`=0 WHERE `id`={$ad_account_id}");
+        $this->db->query("UPDATE work_ad_accounts SET enabled=0 WHERE id={$ad_account_id}");
     }
 
     public function get_enabled_ad_accounts() {
-        $query = $this->db->query('SELECT * FROM `ad_account` WHERE `enabled` = 1');
+        $query = $this->db->query('SELECT * FROM ad_account WHERE enabled = 1');
         return $query->result_array();
     }
 
     public function get_free_ad_account_and_lock_it() {
-        $query = $this->db->query('SELECT * FROM `ad_account` 
-                                    WHERE `enabled` = 1 
-                                    AND `lock_datetime` IS NULL 
-                                    AND `lock_session_id` IS NULL 
-                                    ORDER BY `id`
-                                    LIMIT 1');
+        $query = $this->db->query('SELECT
+                                    TOP(1)
+                                    *
+                                    FROM ad_account
+                                    WHERE enabled = 1 
+                                    AND lock_datetime IS NULL 
+                                    AND lock_session_id IS NULL 
+                                    ORDER BY id
+                                    ');
         if ($query->num_rows() > 0) {
             $ad_account = $query->row_array();
             $session_id = session_id();
             $this->db->query("
-              UPDATE `ad_account` SET `lock_session_id` = '{$session_id}', `lock_datetime` = NOW() 
-              WHERE `id` = {$ad_account['id']}
+              UPDATE ad_account SET lock_session_id = '{$session_id}', lock_datetime = GetDate()
+              WHERE id = {$ad_account['id']}
             ");
 
             return $ad_account;
@@ -78,14 +81,14 @@ class Ads extends CI_Model {
     /* not used */
     public function update_lock_datetime_for_ad_account($ad_account_id) {
         $session_id = session_id();
-        $this->db->query("UPDATE `ad_account` SET `lock_datetime` = NOW() 
-                          WHERE `id` = {$ad_account_id} AND `lock_session_id` = '{$session_id}'");
+        $this->db->query("UPDATE ad_account SET lock_datetime = GetDate()
+                          WHERE id = {$ad_account_id} AND lock_session_id = '{$session_id}'");
     }
 
     public function unlock_ad_account($ad_account_id = null) {
-        $query = 'UPDATE `ad_account` SET `lock_datetime` = NULL, `lock_session_id` = NULL';
+        $query = 'UPDATE ad_account SET lock_datetime = NULL, lock_session_id = NULL';
         if (isset($ad_account_id)) {
-            $query .= " WHERE `id` = {$ad_account_id}";
+            $query .= " WHERE id = {$ad_account_id}";
         }
         $this->db->query($query);
     }
@@ -93,25 +96,25 @@ class Ads extends CI_Model {
     /* not used */
     public function is_current_session_mine($ad_account_id) {
         $session_id = session_id();
-        $query = $this->db->query("SELECT * FROM `ad_account` WHERE `id`={$ad_account_id} AND `lock_session_id`='{$session_id}'");
+        $query = $this->db->query("SELECT * FROM ad_account WHERE id={$ad_account_id} AND lock_session_id='{$session_id}'");
         return ($query->num_rows() > 0);
     }
 
     public function clcear_auxiliary_sign() {
-        $this->db->query('UPDATE `ad_and_insights_date` SET `is_loaded` = FALSE');
+        $this->db->query('UPDATE ad_and_insights_date SET is_loaded = FALSE');
     }
 
     public function get_next_insights_date_for_ad_account($ad_account_id, $interested_date = null) {
 
         if (!isset($interested_date)) {
-            $query = $this->db->query("SELECT * FROM `insights_date` 
-                                    WHERE `ad_account_id`={$ad_account_id} 
-                                    AND `id` NOT IN (SELECT `insights_date_id` FROM `ad_and_insights_date` GROUP BY `insights_date_id`) 
-                                    ORDER BY `id` LIMIT 1");
+            $query = $this->db->query("SELECT TOP(1) * FROM insights_date
+                                    WHERE ad_account_id={$ad_account_id} 
+                                    AND id NOT IN (SELECT insights_date_id FROM ad_and_insights_date GROUP BY insights_date_id) 
+                                    ORDER BY id");
         } else {
-            $query = $this->db->query("SELECT * FROM `insights_date` 
-                                        WHERE `ad_account_id`={$ad_account_id} 
-                                        AND `insights_date` = '{$interested_date}' LIMIT 1");
+            $query = $this->db->query("SELECT TOP(1) * FROM insights_date
+                                        WHERE ad_account_id={$ad_account_id} 
+                                        AND insights_date = '{$interested_date}'");
         }
 
         if ($query->num_rows() > 0) {
@@ -123,16 +126,16 @@ class Ads extends CI_Model {
 
     public function get_next_ad_for_ad_account($ad_account_id, $insights_date_id, $is_auxiliary_request) {
         if (!$is_auxiliary_request) {
-            $query = $this->db->query("SELECT * FROM `ad` WHERE `ad_account_id`={$ad_account_id} 
-                                    AND `id` NOT IN (SELECT `ad_id` FROM `ad_and_insights_date` 
-                                                      WHERE `insights_date_id` = '{$insights_date_id}' GROUP BY `ad_id`) 
-                                    ORDER BY `id` LIMIT 1");
+            $query = $this->db->query("SELECT TOP(1) * FROM ad WHERE ad_account_id={$ad_account_id}
+                                    AND id NOT IN (SELECT ad_id FROM ad_and_insights_date 
+                                                      WHERE insights_date_id = '{$insights_date_id}' GROUP BY ad_id) 
+                                    ORDER BY id");
         } else {
             $query = $this->db->query("
-              SELECT * FROM `ad` WHERE `ad_account_id`={$ad_account_id}
-              AND `id` NOT IN (SELECT `ad_id` FROM `ad_and_insights_date` 
-              WHERE `insights_date_id` = '{$insights_date_id}' AND `is_loaded` = TRUE GROUP BY `ad_id`) 
-              ORDER BY `id` LIMIT 1
+              SELECT TOP(1) * FROM ad WHERE ad_account_id={$ad_account_id}
+              AND id NOT IN (SELECT ad_id FROM ad_and_insights_date 
+              WHERE insights_date_id = '{$insights_date_id}' AND is_loaded = TRUE GROUP BY ad_id) 
+              ORDER BY id
             ");
         }
 
@@ -141,9 +144,9 @@ class Ads extends CI_Model {
 
             if ($is_auxiliary_request) {
                 $this->db->query("
-                  UPDATE `ad_and_insights_date` 
-                  SET `is_loaded` = TRUE 
-                  WHERE `insights_date_id` = '{$insights_date_id}' AND `ad_id` = {$ret_array['id']}
+                  UPDATE ad_and_insights_date 
+                  SET is_loaded = TRUE 
+                  WHERE insights_date_id = '{$insights_date_id}' AND ad_id = {$ret_array['id']}
                 ");
             }
 
@@ -155,8 +158,8 @@ class Ads extends CI_Model {
 
     public function save_ad_dates($date_list) {
         $ad_account_id = $date_list[0]['ad_account_id'];
-        $query = $this->db->query("SELECT `insights_date` FROM `insights_date` 
-                                    WHERE `ad_account_id` = {$ad_account_id}");
+        $query = $this->db->query("SELECT insights_date FROM insights_date 
+                                    WHERE ad_account_id = {$ad_account_id}");
         $array = $query->result_array();
         foreach ($date_list as $date) {
             if (!in_array(['insights_date' => $date['insights_date']], $array)) {
@@ -221,7 +224,7 @@ class Ads extends CI_Model {
                     'website_clicks'                    => $p['website_clicks'],
                 );
 
-                $query = $this->db->query("SELECT `id` FROM `ad_details` WHERE `ad_and_insights_date_id`={$ad_and_insights_date_id} AND `breakdown`='{$p['breakdown']}' AND `breakdown_value`='{$p['breakdown_value']}'");
+                $query = $this->db->query("SELECT id FROM ad_details WHERE ad_and_insights_date_id={$ad_and_insights_date_id} AND breakdown='{$p['breakdown']}' AND breakdown_value='{$p['breakdown_value']}'");
                 $count_rows = $query->num_rows();
                 if ($count_rows > 0) {
                     // тут выполняем update
@@ -235,7 +238,7 @@ class Ads extends CI_Model {
                     if ($count_rows > 1) {
                         for ($i = 1; $i < $count_rows; $i++) {
                             $row = $query->row_array($i);
-                            $this->db->query("DELETE FROM `ad_details` WHERE `id`={$row['id']}");
+                            $this->db->query("DELETE FROM ad_details WHERE id={$row['id']}");
                         }
                     }
 
@@ -258,7 +261,7 @@ class Ads extends CI_Model {
 
     public function mark_date_as_loaded($ad_id, $insights_date_id) {
         $ret_id = null;
-        $query = $this->db->query("SELECT `id` FROM `ad_and_insights_date` WHERE `ad_id` = {$ad_id} AND `insights_date_id` = '{$insights_date_id}'");
+        $query = $this->db->query("SELECT id FROM ad_and_insights_date WHERE ad_id = {$ad_id} AND insights_date_id = '{$insights_date_id}'");
         if ($query->num_rows() > 0) {
             $row = $query->row_array();
             $ret_id = $row['id'];
@@ -272,7 +275,7 @@ class Ads extends CI_Model {
     }
 
     public function save_ad_list($ad_list) {
-        $query = $this->db->query("SELECT `id` FROM `ad` WHERE `ad_account_id`={$ad_list[0]['ad_account_id']}");
+        $query = $this->db->query("SELECT id FROM ad WHERE ad_account_id={$ad_list[0]['ad_account_id']}");
         $array = $query->result_array();
         foreach ($ad_list as $ad) {
             if (!in_array(['id' => $ad['id']], $array)) {
@@ -284,19 +287,19 @@ class Ads extends CI_Model {
     private function save_array_to_table($ads_details_id, $element, $table_name) {
         if (!empty($element[$table_name])) {
             foreach ($element[$table_name] as $c) {
-                $query = $this->db->query("SELECT `id` FROM `{$table_name}` 
-                                            WHERE `ads_details_id` = {$ads_details_id} 
-                                            AND `action_type` = '{$c["action_type"]}'");
+                $query = $this->db->query("SELECT id FROM {$table_name} 
+                                            WHERE ads_details_id = {$ads_details_id} 
+                                            AND action_type = '{$c["action_type"]}'");
                 $num_rows = $query->num_rows();
                 if ($num_rows > 0) {
                     $row = $query->row_array();
                     $id = $row['id'];
-                    $this->db->query("UPDATE `{$table_name}` SET `action_value` = {$c['value']} WHERE `id` = {$id}");
+                    $this->db->query("UPDATE {$table_name} SET action_value = {$c['value']} WHERE id = {$id}");
                     if ($num_rows > 1) {
                         for ($i = 1; $i < $num_rows; $i++) {
                             $row = $query->row_array($i);
                             $id = $row['id'];
-                            $this->db->query("DELETE FROM `{$table_name}` WHERE `id` = {$id}");
+                            $this->db->query("DELETE FROM {$table_name} WHERE id = {$id}");
                         }
                     }
                 } else {
@@ -311,7 +314,7 @@ class Ads extends CI_Model {
     }
 
     public function save_ad_accounts($ad_accounts_list) {
-        $query = $this->db->query('SELECT `id` FROM `ad_account`');
+        $query = $this->db->query('SELECT id FROM ad_account');
         $array = $query->result_array();
         foreach ($ad_accounts_list as $ad_account) {
             if (!in_array(['id' => $ad_account['id']], $array)) {
@@ -322,7 +325,7 @@ class Ads extends CI_Model {
 
     public function save_ad_image_list($ad_images_list) {
         $ad_account_id = $ad_images_list[0]['ad_account_id'];
-        $query = $this->db->query("SELECT `id` FROM `ad_image` WHERE `ad_account_id`={$ad_account_id}");
+        $query = $this->db->query("SELECT id FROM ad_image WHERE ad_account_id={$ad_account_id}");
         $array = $query->result_array();
         foreach ($ad_images_list as $ad_image) {
             $creatives = $ad_image['creatives'];
@@ -331,7 +334,7 @@ class Ads extends CI_Model {
                 $this->db->insert('ad_image', $ad_image);
             }
             if (isset($creatives)) {
-                $query2 = $this->db->query("SELECT `creative_id` FROM `ad_image_creatives` WHERE `ad_image_id` = '{$ad_image['id']}'");
+                $query2 = $this->db->query("SELECT creative_id FROM ad_image_creatives WHERE ad_image_id = '{$ad_image['id']}'");
                 $creatives_array = $query2->result_array();
                 foreach ($creatives as $creative)
                 if (!in_array(['creative_id' => $creative], $creatives_array)) {
@@ -345,7 +348,7 @@ class Ads extends CI_Model {
     }
 
     public function save_ad_acreatives_list($ad_creatives) {
-        $query = $this->db->query('SELECT `id` FROM `ad_creative`');
+        $query = $this->db->query('SELECT id FROM ad_creative');
         $array = $query->result_array();
         foreach ($ad_creatives as $creative) {
             $item = array('id' => $creative['id']);

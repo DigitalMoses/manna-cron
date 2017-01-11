@@ -12,8 +12,8 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class Log extends CI_Model {
 
     public function clear() {
-        $this->db->query("DELETE FROM `log`");
-        $this->db->query("ALTER TABLE `log` AUTO_INCREMENT = 1");
+        $this->db->query("DELETE FROM log");
+        $this->db->query("ALTER TABLE log AUTO_INCREMENT = 1");
     }
 
     public function registerEvent($event_name, $event_message) {
@@ -29,7 +29,7 @@ class Log extends CI_Model {
 
     public function is_script_already_running($delay) {
         $is_run = false;
-        $query = $this->db->query('SELECT TIMESTAMPDIFF(SECOND, (SELECT `created_datetime` FROM `log` ORDER BY `id` DESC LIMIT 1), NOW()) AS \'idle_seconds\';');
+        $query = $this->db->query('SELECT DATEDIFF(S, (SELECT TOP(1) created_datetime FROM log ORDER BY id DESC), GetDate()) AS idle_seconds;');
         if ($query->num_rows() > 0) {
             $row = $query->row();
             $is_run = ($row->idle_seconds < $delay);

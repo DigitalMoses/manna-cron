@@ -8,12 +8,12 @@ class User extends CI_Model {
 
         $token = '';
         $isOk = false;
-        $query = $this->db->query("SELECT `access_token` FROM `facebook_user` WHERE `is_cron_user` = TRUE LIMIT 1");
+        $query = $this->db->query("SELECT TOP(1) access_token FROM facebook_user WHERE is_cron_user = 1");
 
         if ($query->num_rows() > 0) {
             $isOk = true;
         } else {
-            $query = $this->db->query("SELECT `access_token` FROM `facebook_user` LIMIT 1");
+            $query = $this->db->query("SELECT TOP(1) access_token FROM facebook_user");
             if ($query->num_rows() > 0) {
                 $isOk = true;
             }
@@ -28,7 +28,7 @@ class User extends CI_Model {
     }
 
     public function get_users() {
-        $query = $this->db->query("SELECT * FROM `facebook_user` WHERE 1");
+        $query = $this->db->query("SELECT * FROM facebook_user WHERE 1");
         $result = $query->result_array();
         return $result;
     }
@@ -44,12 +44,12 @@ class User extends CI_Model {
 
         if (isset($user['is_cron_user'])) $dumb["is_cron_user"] = $user['is_cron_user'];
 
-        $query = $this->db->query("SELECT * FROM `facebook_user` WHERE `is_cron_user`= TRUE");
+        $query = $this->db->query("SELECT * FROM facebook_user WHERE is_cron_user= TRUE");
         if ($query->num_rows() == 0) {
             $dumb["is_cron_user"] = true;
         }
 
-        $query = $this->db->query("SELECT * FROM `facebook_user` WHERE `id`={$user['id']}");
+        $query = $this->db->query("SELECT * FROM facebook_user WHERE id={$user['id']}");
         if ($query->num_rows() > 0) {
             $this->db->where(array("id" => $user["id"]));
             $this->db->update("facebook_user", $dumb);
@@ -59,7 +59,7 @@ class User extends CI_Model {
     }
 
     public function get_fuid_by_ft($token) {
-        $result = $this->db->query("SELECT `id` FROM `facebook_user` WHERE `access_token`='{$token}' LIMIT 1");
+        $result = $this->db->query("SELECT TOP(1) id FROM facebook_user WHERE access_token='{$token}' ");
         $row = $result->row();
         return $row->id;
     }

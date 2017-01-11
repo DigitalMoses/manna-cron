@@ -235,6 +235,8 @@ class Cron extends CI_Controller {
     }
 
     public function index() {
+        log_message('debug', 'index - START');
+
         ini_set('max_execution_time', 999999999);
         ini_set('memory_limit', '512M');
 
@@ -265,14 +267,20 @@ class Cron extends CI_Controller {
         }
 
         $this->Log->registerEvent('Finish', 'Finish script.');
+        log_message('debug', 'index - END');
     }
 
     private function prepare_to_work($looking_date) {
+        log_message('debug', 'prepare_to_work - START');
+
         $this->Log->registerEvent('Message', 'Start the function: prepare_to_work');
         // получаем список Ad Accounts, т.к. могли появиться новые. В случае появления новых - добавляем в базу.
         $this->Ads->save_ad_accounts($this->get_ad_accounts());
         // получаем список активных ad accounts
         $ad_accounts_list = $this->Ads->get_enabled_ad_accounts();
+
+        log_message('debug', 'number of accounts: ' + count($ad_accounts_list));
+
         if (count($ad_accounts_list) > 0) {
             foreach ($ad_accounts_list as $ad_account) {
                 $ad_list = $this->get_ad_list_for_ad_account($ad_account);
@@ -291,6 +299,7 @@ class Cron extends CI_Controller {
             }
         }
         $this->Log->registerEvent('Message', 'Finish the function: prepare_to_work');
+        log_message('debug', 'prepare_to_work - END');
     }
 
     private function work($looking_date) {
