@@ -241,8 +241,13 @@ class Cron extends CI_Controller {
         ini_set('memory_limit', '512M');
 
         $amount_of_seconds_for_checking = ($this->config->item('debug_mode')) ? 1 : ($this->sleep_seconds) + 30;
+        log_message('debug', 'min time since the last log date: ' + $amount_of_seconds_for_checking + ' seconds');
+
         $is_script_already_running = $this->Log->is_script_already_running($amount_of_seconds_for_checking);
-        if ($is_script_already_running) return;
+        if ($is_script_already_running) {
+            log_message('error', 'script is already running');
+            return
+        };
 
         $this->Ads->unlock_ad_account();
         $this->Log->registerEvent('Start', 'Start script.');
@@ -303,6 +308,8 @@ class Cron extends CI_Controller {
     }
 
     private function work($looking_date) {
+        log_message('debug', 'work - START');
+
         $this->Log->registerEvent('Message', 'Start the function: work');
         // получаем свободный ad_account
         $is_auxiliary_request = false;
@@ -349,9 +356,12 @@ class Cron extends CI_Controller {
         }
 
         $this->Log->registerEvent('Message', 'Finish the function: work');
+
+        log_message('debug', 'work - END');
     }
 
     private function get_ad_accounts() {
+        log_message('debug', 'get_ad_accounts - START');
 
         $this->Log->registerEvent('Message', 'Start the function: get_ad_accounts');
 
@@ -383,11 +393,13 @@ class Cron extends CI_Controller {
         }
 
         $this->Log->registerEvent('Message', 'Finish the function: get_ad_accounts');
+        log_message('debug', 'get_ad_accounts - END');
 
         return $ad_accounts;
     }
 
     private function get_ad_list_for_ad_account($ad_account) {
+        log_message('debug', 'get_ad_list_for_ad_account - START');
 
         $ad_account_id = "act_{$ad_account['id']}";
         $adAccount = new AdAccount($ad_account_id);
@@ -431,6 +443,7 @@ class Cron extends CI_Controller {
             }
         }
 
+        log_message('debug', 'get_ad_list_for_ad_account - END');
         return $response;
     }
 
@@ -454,6 +467,7 @@ class Cron extends CI_Controller {
     }
 
     private function get_ad_image_list_for_ad_account($ad_account) {
+        log_message('debug', 'get_ad_image_list_for_ad_account - START');
 
         $ad_account_id = "act_{$ad_account['id']}";
         $adAccount = new AdAccount($ad_account_id);
@@ -496,11 +510,14 @@ class Cron extends CI_Controller {
             }
         }
 
+        log_message('debug', 'get_ad_image_list_for_ad_account - END');
         return $response;
     }
 
     private function get_ad_creatives_list_for_ad_account($ad_account)
     {
+        log_message('debug', 'get_ad_creatives_list_for_ad_account - START');
+
         $ad_account_id = "act_{$ad_account['id']}";
         $adAccount = new AdAccount($ad_account_id);
         $response = [];
@@ -563,12 +580,15 @@ class Cron extends CI_Controller {
                 }
             }
         }
+        log_message('debug', 'get_ad_creatives_list_for_ad_account - END');
 
         return $response;
 
     }
 
     private function get_ad_creatives_by_ad($ad_list) {
+        log_message('debug', 'get_ad_creatives_by_ad - START');
+
         $response = [];
         foreach ($ad_list as $ad) {
             $is_success = false;
@@ -631,11 +651,14 @@ class Cron extends CI_Controller {
                 }
             }
         }
+        log_message('debug', 'get_ad_creatives_by_ad - END');
 
         return $response;
     }
 
     private function prepare_insights_dates($ad_account, $looking_date) {
+        log_message('debug', 'prepare_insights_dates - START');
+
         if (isset($ad_account['start_date']) && !empty($ad_account['start_date'])) {
             $cur_date = ($this->config->item('debug_mode')) ?
                 date('Y-m-d', strtotime($looking_date . '-3 days')) :
@@ -650,9 +673,12 @@ class Cron extends CI_Controller {
             }
             $this->Ads->save_ad_dates($date_list);
         }
+        log_message('debug', 'prepare_insights_dates - END');
     }
 
+
     private function load_ad_data_from_facebook($ad_id, $looking_date, $ad_created_date) {
+        log_message('debug', 'load_ad_data_from_facebook - START');
 
         $data = [];
 
@@ -789,6 +815,8 @@ class Cron extends CI_Controller {
                 }
             }
         }
+
+        log_message('debug', 'load_ad_data_from_facebook - END');
 
         return $data;
     }

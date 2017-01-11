@@ -4,9 +4,11 @@
     composer update
 
 ### Dependencies:
-- mysql
+- mssql
+- mssql driver: https://msdn.microsoft.com/library/dn865013.aspx
+- codeIgniter
 
 ### Executed via crobjob:
-    0 4-23 * * * wget http://52.42.91.170/Cron
+    0 4-23 * * * wget http://40.76.32.26/Cron
 
 
