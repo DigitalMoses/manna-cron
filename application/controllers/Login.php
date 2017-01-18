@@ -12,7 +12,7 @@ class Login extends CI_Controller {
 
     public function index() {
         if (isset($_SESSION['facebook_access_token'])) redirect('Home');
-        $redirect = base_url() . 'Login/oauth_finish';
+        $redirect = base_url() . 'sputnik/index.php/Login/oauth_finish';
         $data['url'] = getFacebookLoginURL($redirect);
         $this->load->template('login', $data);
     }
