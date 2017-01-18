@@ -44,7 +44,7 @@ class User extends CI_Model {
 
         if (isset($user['is_cron_user'])) $dumb["is_cron_user"] = $user['is_cron_user'];
 
-        $query = $this->db->query("SELECT * FROM facebook_user WHERE is_cron_user= TRUE");
+        $query = $this->db->query("SELECT * FROM facebook_user WHERE is_cron_user= 1");
         if ($query->num_rows() == 0) {
             $dumb["is_cron_user"] = true;
         }
