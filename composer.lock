@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "78b923926a2e44dbd797a11e4b5ed3de",
     "content-hash": "30ef1df3c0f819d0455f847d48fb886c",
     "packages": [
         {
@@ -63,7 +62,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2016-12-30 17:54:16"
+            "time": "2016-12-30T17:54:16+00:00"
         },
         {
             "name": "facebook/php-ads-sdk",
@@ -100,7 +99,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2016-10-06 03:47:41"
+            "time": "2016-10-06T03:47:41+00:00"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -157,7 +156,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2015-05-01 07:00:55"
+            "time": "2015-05-01T07:00:55+00:00"
         }
     ],
     "packages-dev": [
@@ -189,7 +188,7 @@
                 "BSD"
             ],
             "homepage": "http://vfs.bovigo.org/",
-            "time": "2012-08-25 12:49:29"
+            "time": "2012-08-25T12:49:29+00:00"
         }
     ],
     "aliases": [],

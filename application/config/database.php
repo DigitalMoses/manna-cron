@@ -75,11 +75,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'    => '',
-    'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'Upai0aec2aiMiex',
-	'database' => 'sputnik',
-    'dbdriver' => 'mysqli',
+    'hostname' => 'jtsn0ki4ca.database.windows.net',
+	'username' => 'mm',
+	'password' => 'kE1X0R09K9',
+	'database' => 'digitalmoses_mana_db',
+    'dbdriver' => 'sqlsrv',
     'dbprefix' => '',
     'pconnect' => FALSE,
     'db_debug' => (ENVIRONMENT !== 'production'),

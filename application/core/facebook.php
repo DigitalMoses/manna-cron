@@ -19,6 +19,7 @@ use FacebookAds\Object\Fields\CampaignFields;
 $db = null;
 
 function getFacebookAccessToken() {
+    log_message('debug', 'getFacebookAccessToken - START');
     
     $CI =& get_instance();
     $appID = $CI->config->item('appID');
@@ -33,6 +34,7 @@ function getFacebookAccessToken() {
 
     try {
         $accessToken = $helper->getAccessToken();
+        log_message('debug', 'got access token:' . $accessToken);
     } catch(FacebookResponseException $e) {
         // When Graph returns an error
         echo 'Graph returned an error: ' . $e->getMessage();
@@ -73,11 +75,14 @@ function getFacebookAccessToken() {
         // Exchanges a short-lived access token for a long-lived one
         try {
             $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+            log_message('debug', 'got long lived access token:' . $accessToken);
         } catch (FacebookSDKException $e) {
             echo "<p>Error getting long-lived access token: " . $helper->getMessage() . "</p>\n\n";
             exit;
         }
     }
+
+    log_message('debug', 'getFacebookAccessToken - END');
 
     return (string) $accessToken;
 }

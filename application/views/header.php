@@ -55,7 +55,7 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo base_url(); ?>logout">Log Out</a></li>
+            <li><a href="<?php echo base_url(); ?>sputnik/index.php/Login/logout">Log Out</a></li>
         </ul>
     </div><!-- /.container-fluid -->
 </nav>

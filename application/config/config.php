@@ -7,6 +7,8 @@ if ($config['debug_mode']) {
     // DragonTestApp
     $config['appID'] = '1061321257285373';
     $config['appSecret'] = '024d1d18dc5c667e3f47a83fe6cce8d1';
+    //$config['appID'] = '1395858217388413';
+    //$config['appSecret'] = '05f89fce6a8344a1ac09eccb873c153d';
 } else {
     // Sputnik
     $config['appID'] = '1395858217388413';
@@ -230,7 +232,7 @@ $config['directory_trigger'] = 'd';
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
